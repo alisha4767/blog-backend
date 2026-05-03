@@ -1,14 +1,20 @@
 const Post = require('../models/Post');
 
 exports.createPost = async (req, res) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    user: req.user.userId
-  });
+  try {
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      image: req.file ? req.file.filename : null,
+      user: req.user.userId
+    });
 
-  await post.save();
-  res.json(post);
+    await post.save();
+    res.json(post);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.getPosts = async (req, res) => {

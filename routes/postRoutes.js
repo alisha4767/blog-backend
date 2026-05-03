@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { createPost, getPosts, updatePost, deletePost } = require('../controllers/postController');
+const { createPost, getPosts, updatePost, deletePost,likePost } = require('../controllers/postController');
+const upload = require('../middleware/upload');
 
+router.post('/posts', auth, upload.single('image'), createPost);
 router.post('/posts', auth, createPost);
 router.get('/posts', getPosts);
 router.put('/posts/:id', auth, updatePost);
